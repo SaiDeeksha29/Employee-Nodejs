@@ -10,7 +10,7 @@
     }
 }
 
-//  UC_4 Calculating monthly employee wage based on part time or full time work
+//  UC_5 Calculating monthly employee wage based on part time or full time work and max working hours or days
 {
     const IS_PART_TIME = 0;
     const IS_FULL_TIME = 1;
@@ -18,6 +18,7 @@
     const FULL_TIME_HOURS = 8;
     const WAGE_PER_HOUR = 20;
     const NO_OF_WORKING_DAYS = 20;
+    const MAX_HOURS_MONTHLY = 100;
     function getWorkingHours(employeeCheck) {
         switch (employeeCheck) {
             case IS_PART_TIME:
@@ -27,11 +28,13 @@
         }
     }
     let employeeHours = 0;
-    for (let day = 0; day < NO_OF_WORKING_DAYS; day++) {
+    let employeeWorkingDays = 0;
+    while (employeeHours <= MAX_HOURS_MONTHLY && employeeWorkingDays <= NO_OF_WORKING_DAYS) {
+        employeeWorkingDays++;
         let employeeCheck = Math.floor(Math.random() * 10) % 2;
         employeeHours += getWorkingHours(employeeCheck);
     }
     let employeeWage = employeeHours * WAGE_PER_HOUR;
-    console.log("Total Working Hours : " + employeeHours);
-    console.log("Employee wage : $" + employeeWage);
+    console.log("Total Working Days : " + employeeWorkingDays);
+    console.log("Total Working Hours : " + employeeHours + " \nEmployee wage : $" + employeeWage);
 }
