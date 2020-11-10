@@ -1,47 +1,45 @@
 //UC_8 Storing the day and daily wage along with total wage
-{
-    const IS_PART_TIME = 0;
-    const IS_FULL_TIME = 1;
-    const PART_TIME_HOURS = 4;
-    const FULL_TIME_HOURS = 8;
-    const WAGE_PER_HOUR = 20;
-    const NO_OF_WORKING_DAYS = 20;
-    const MAX_HOURS_MONTHLY = 100;
-    var employeeDailyWage = new Array();
-    var employeeDailyWageMap = new Map();
-    var employeeDailyHoursMap = new Map();
+const IS_PART_TIME = 0;
+const IS_FULL_TIME = 1;
+const PART_TIME_HOURS = 4;
+const FULL_TIME_HOURS = 8;
+const WAGE_PER_HOUR = 20;
+const NO_OF_WORKING_DAYS = 20;
+const MAX_HOURS_MONTHLY = 160;
+var employeeDailyWage = new Array();
+var employeeDailyWageMap = new Map();
+var employeeDailyHoursMap = new Map();
 
-    function getWorkingHours(employeeCheck) {
-        switch (employeeCheck) {
-            case IS_PART_TIME:
-                return PART_TIME_HOURS;
-            case IS_FULL_TIME:
-                return FULL_TIME_HOURS;
-            default:
-                return 0;
-        }
+function getWorkingHours(employeeCheck) {
+    switch (employeeCheck) {
+        case IS_PART_TIME:
+            return PART_TIME_HOURS;
+        case IS_FULL_TIME:
+            return FULL_TIME_HOURS;
+        default:
+            return 0;
     }
-
-    function getWage(workingHours) {
-        return workingHours * WAGE_PER_HOUR;
-    }
-
-    var employeeHours = 0;
-    var employeeWorkingDays = 0;
-    while (employeeHours <= MAX_HOURS_MONTHLY && employeeWorkingDays <= NO_OF_WORKING_DAYS) {
-        employeeWorkingDays++;
-        let employeeCheck = Math.floor(Math.random() * 10) % 3;
-        let employeeWorkingHours = getWorkingHours(employeeCheck);
-        employeeHours += employeeWorkingHours;
-        employeeDailyWage.push(getWage(employeeWorkingHours));
-        employeeDailyHoursMap.set(employeeWorkingDays, employeeWorkingHours);
-        employeeDailyWageMap.set(employeeWorkingDays, getWage(employeeWorkingHours));
-    }
-    let employeeWage = getWage(employeeHours);
-    console.log("Total Working Days : " + employeeWorkingDays + "\nTotal Working Hours : " + employeeHours + " \nEmployee wage : $" + employeeWage);
-    console.log(employeeDailyWageMap);
-    console.log("Employee Wage Map Total Hrs:" + Array.from(employeeDailyWageMap.values()).reduce(totalWages, 0));
 }
+
+function getWage(workingHours) {
+    return workingHours * WAGE_PER_HOUR;
+}
+
+let employeeHours = 0;
+let employeeWorkingDays = 0;
+while (employeeHours <= MAX_HOURS_MONTHLY && employeeWorkingDays < NO_OF_WORKING_DAYS) {
+    employeeWorkingDays++;
+    let employeeCheck = Math.floor(Math.random() * 10) % 3;
+    let employeeWorkingHours = getWorkingHours(employeeCheck);
+    employeeHours += employeeWorkingHours;
+    employeeDailyWage.push(getWage(employeeWorkingHours));
+    employeeDailyHoursMap.set(employeeWorkingDays, employeeWorkingHours);
+    employeeDailyWageMap.set(employeeWorkingDays, getWage(employeeWorkingHours));
+}
+let employeeWage = getWage(employeeHours);
+console.log("Total Working Days : " + employeeWorkingDays + "\nTotal Working Hours : " + employeeHours + " \nEmployee wage : $" + employeeWage);
+console.log(employeeDailyWageMap);
+console.log("Employee Wage Map Total Hrs:" + Array.from(employeeDailyWageMap.values()).reduce(totalWages, 0));
 
 //Arrays helper functions
 //UC_7A Calculate total wage using Array forEach traversal or reduce method
@@ -123,3 +121,26 @@ employeeDailyHoursMap.forEach((value, key) => {
 console.log("Full working days: " + fullWorkingDays);
 console.log("Part working days: " + partWorkingDays);
 console.log("Non working days: " + notWorkingDays);
+
+//UC10 object creation
+{
+    let employeeHours = 0;
+    let employeeWorkingDays = 0;
+    let employeeDailyHoursAndWageArray = new Array();
+    while (employeeHours <= MAX_HOURS_MONTHLY && employeeWorkingDays < NO_OF_WORKING_DAYS) {
+        employeeWorkingDays++;
+        let employeeCheck = Math.floor(Math.random() * 10) % 3;
+        let employeeWorkingHours = getWorkingHours(employeeCheck);
+        employeeHours += employeeWorkingHours;
+        employeeDailyHoursAndWageArray.push(
+            {
+                dayCount: employeeWorkingDays,
+                dailyHours: employeeWorkingHours,
+                dailyWages: getWage(employeeWorkingHours),
+                toString() {
+                    return "\nDay" + this.dayCount + " => Working Hours is: " + this.dailyHours + " Wage earned = " + this.dailyWages
+                },
+            });
+    }
+    console.log("UC10 Showing daily hours worked and wage earned: " + employeeDailyHoursAndWageArray);
+}
