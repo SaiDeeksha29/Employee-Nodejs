@@ -1,3 +1,4 @@
+const genderRegexPattern = RegExp('[M,F]{1}$');
 class EmployeePayRollData {
     //property
     id;
@@ -7,11 +8,23 @@ class EmployeePayRollData {
 
     //constructor
     constructor(...params) {
-        this.id = params[0];
+        if (!params[0] > 0) throw "Id Is Incorrect"
+        {
+            this.id = params[0];
+        }
         this.name = params[1];
-        this.salary = params[2];
-        this.gender = params[3];
-        this.startDate = params[4];
+        if (!params[2] > 0) throw "Salary Is Incorrect"
+        {
+            this.salary = params[2];
+        }
+        if (!genderRegexPattern.test(params[3])) throw "Gender Is Incorrect"
+        {
+            this.gender = params[3];
+        }
+        if (params[4] > new Date()) throw "StartDate Is Incorrect"
+        {
+            this.startDate = params[4];
+        }
     }
 
     //getter and setter method
@@ -36,13 +49,42 @@ class EmployeePayRollData {
     }
 }
 
-let employeePayRollData = new EmployeePayRollData(1, "Mark", 30000);
-console.log(employeePayRollData.toString());
+//Check Name
 try {
-    employeePayRollData.name = "john";
-    console.log(employeePayRollData.toString());
+    let newEmployeePayrollData2 = new EmployeePayRollData(1, "Ter", 30000, "F", new Date());
+    console.log(newEmployeePayrollData2.toString());
 } catch (e) {
     console.error(e);
 }
-let newEmployeePayRollData = new EmployeePayRollData(1, "Terissa", 30000, "F", new Date());
-console.log(newEmployeePayRollData.toString());
+
+//Check Id
+try {
+    let newEmployeePayRollData3 = new EmployeePayRollData(0, "Mark", 2000, "F", new Date());
+    console.log(newEmployeePayRollData3.toString());
+} catch (e) {
+    console.error(e);
+}
+
+//Check Salary
+try {
+    let newEmployeePayrollData3 = new EmployeePayRollData(2, "Mark", 0, "F", new Date());
+    console.log(newEmployeePayrollData3.toString());
+} catch (e) {
+    console.error(e);
+}
+
+//Check Gender
+try {
+    let newEmployeePayrollData3 = new EmployeePayRollData(2, "Mark", 2000, "K", new Date());
+    console.log(newEmployeePayrollData3.toString());
+} catch (e) {
+    console.error(e);
+}
+
+//Check Date
+try {
+    let newEmployeePayrollData3 = new EmployeePayRollData(2, "Mark", 2000, "M", new Date('2021-04-11T10:20:30Z'));
+    console.log(newEmployeePayrollData3.toString());
+} catch (e) {
+    console.log(e);
+}
