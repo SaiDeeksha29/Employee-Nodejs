@@ -126,7 +126,7 @@ console.log("Non working days: " + notWorkingDays);
 {
     let employeeHours = 0;
     let employeeWorkingDays = 0;
-    let employeeDailyHoursAndWageArray = new Array();
+    var employeeDailyHoursAndWageArray = new Array();
     while (employeeHours <= MAX_HOURS_MONTHLY && employeeWorkingDays < NO_OF_WORKING_DAYS) {
         employeeWorkingDays++;
         let employeeCheck = Math.floor(Math.random() * 10) % 3;
@@ -144,3 +144,22 @@ console.log("Non working days: " + notWorkingDays);
     }
     console.log("UC10 Showing daily hours worked and wage earned: " + employeeDailyHoursAndWageArray);
 }
+
+//UC11A - UC11D Using Object Functions along with Arrow Functions
+let totalWageEarned = employeeDailyHoursAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyWage > 0)
+    .reduce((totalWage, dailyHrsAndWage) => totalWage += dailyHrsAndWage.dailyWage, 0);
+console.log("Total wage UC11A - " + totalWageEarned);
+let totalHour = employeeDailyHoursAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours > 0)
+    .reduce((totalHours, dailyHrsAndWage) => totalHours += dailyHrsAndWage.dailyHours, 0);
+console.log("Total hours UC11A - " + totalHour);
+process.stdout.write("11B- Logging Full Work Days");
+employeeDailyHoursAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 8).
+    forEach(dailyHrsAndWage => process.stdout.write(dailyHrsAndWage.toString()));
+
+let partWorkingDaysString = employeeDailyHoursAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 4)
+    .map(dailyHrsAndWage => dailyHrsAndWage.toString());
+console.log("\n11C- Part Working Days" + partWorkingDaysString);
+
+let noWorkingDays = employeeDailyHoursAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 0)
+    .map(dailyHrsAndWage => dailyHrsAndWage.dayCount);
+console.log("11D- Non working days: " + noWorkingDays);
